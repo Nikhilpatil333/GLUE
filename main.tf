@@ -24,11 +24,6 @@ resource "aws_glue_job" "glue_job" {
   description = "This is script to convert dataset"
   max_retries = "1"
   timeout = 2880
-
-  max_capacity             = 5    # Set the maximum number of worker nodes
-  number_of_workers        = 5    # Set the initial number of worker nodes
-  worker_type              = "G.1X"  # Specify the worker type
-
   command {
     script_location = "s3://terraform-nikhil-prac/test.py"
     python_version = "3"
