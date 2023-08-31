@@ -37,7 +37,7 @@ resource "aws_glue_job" "glue_job" {
     max_concurrent_runs = 2
   }
   glue_version = "4.0"
-  StartOnCreation = "true"
+
 }
 
 
