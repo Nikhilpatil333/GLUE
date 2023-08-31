@@ -40,14 +40,6 @@ resource "aws_glue_job" "glue_job" {
   StartOnCreation = "true"
 }
 
-# resource "aws_lambda_function" "glue_job_trigger_lambda" {
-#   filename         = "path/to/your/lambda_function.zip"
-#   function_name    = "GlueJobTriggerLambda"
-#   role             = "arn:aws:iam::684710758112:role/LabRole"  # Replace with your LabRole ARN
-#   handler          = "lambda_function.handler"
-#   runtime          = "python3.8"
-#   source_code_hash = filebase64sha256("path/to/your/lambda_function.zip")
-# }
 
 
 
