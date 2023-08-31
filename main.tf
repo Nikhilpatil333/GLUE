@@ -37,14 +37,17 @@ resource "aws_glue_job" "glue_job" {
     max_concurrent_runs = 2
   }
   glue_version = "4.0"
+
+}
   resource "aws_glue_trigger" "glue_trigger" {
   name = "group2_trigger"
   type = "EVENT"
   event_pattern {
+    
     detail-type = "Glue Job State Change"
   }
   start = true
-  }
+  
 }
 
 
