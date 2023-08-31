@@ -35,7 +35,6 @@ resource "aws_glue_job" "glue_job" {
   }
   execution_property {
     max_concurrent_runs = 2
-    StartOnCreation = "true"
   }
   glue_version = "4.0"
   resource "aws_glue_trigger" "glue_trigger" {
@@ -44,7 +43,6 @@ resource "aws_glue_job" "glue_job" {
   event_pattern {
     detail-type = "Glue Job State Change"
   }
-  job_name = aws_glue_job.glue_job.name
   start = true
   }
 }
