@@ -32,7 +32,6 @@ resource "aws_lambda_function" "terraform_lambda_func" {
  role                           = "arn:aws:iam::684710758112:role/LabRole"
  handler                        = "lm-python.lambda_handler"
  runtime                        = "python3.8"
- source_code_hash = filebase64sha256("lm-python.zip")
 }
 
 resource "aws_cloudwatch_event_rule" "glue_job_creation_trigger" {
