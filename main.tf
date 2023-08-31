@@ -21,13 +21,13 @@
 
 data "archive_file" "zip_python_code" {
   type = "zip"
-  source_dir = "lm-python.py"
-  output_path = "lm-python.zip" 
+  source_dir = "${path.module}/lm-python.py"
+  output_path = "${path.module}/lm-python.zip" 
 }
 
 #create Lambda Function
 resource "aws_lambda_function" "terraform_lambda_func" {
- filename                       = "lm-python.zip"
+ filename                       = "${path.module}/lm-python.zip"
  function_name                  = "Jhooq-Lambda-Function"
  role                           = "arn:aws:iam::684710758112:role/LabRole"
  handler                        = "lm-python.lambda_handler"
