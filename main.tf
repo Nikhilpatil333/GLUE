@@ -24,11 +24,6 @@ resource "aws_glue_job" "glue_job" {
   description = "This is script to convert dataset"
   max_retries = "1"
   timeout = 2880
-
-  tags = {
-    Name = "MyGlueJob"
-    AutoRun = "true"
-  }
   command {
     script_location = "s3://terraform-nikhil-prac/test.py"
     python_version = "3"
@@ -37,18 +32,12 @@ resource "aws_glue_job" "glue_job" {
     max_concurrent_runs = 2
   }
   glue_version = "4.0"
+
+  tags = {
+    TriggerOnUpload = "true"
+  }
   
 }
 
-resource "aws_cloudwatch_event_rule" "glue_job_trigger" {
-  name        = "TriggerGlueJobOnCreate"
-  description = "Trigger Glue job when it's created"
-}
 
-resource "aws_cloudwatch_event_target" "glue_job_target" {
-  rule      = aws_cloudwatch_event_rule.glue_job_trigger.name
-  target_id = "GlueJobTarget"
-  
-  arn = aws_glue_job.glue_job.arn
-}
 
