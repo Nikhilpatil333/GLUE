@@ -40,3 +40,15 @@ resource "aws_glue_job" "glue_job" {
   
 }
 
+resource "aws_cloudwatch_event_rule" "glue_job_trigger" {
+  name        = "TriggerGlueJobOnCreate"
+  description = "Trigger Glue job when it's created"
+}
+
+resource "aws_cloudwatch_event_target" "glue_job_target" {
+  rule      = aws_cloudwatch_event_rule.glue_job_trigger.name
+  target_id = "GlueJobTarget"
+  
+  arn = aws_glue_job.glue_job.arn
+}
+
