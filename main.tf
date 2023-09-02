@@ -33,13 +33,13 @@
 
 # 1st create lambda function and copy the lambda ARN and paste in cloudwatch block 
 
-resource "aws_lambda_function" "glue_job_trigger_lambda" {
- filename                       = "${path.module}/lm.zip"
- function_name                  = "Jhooq-Lambda-Function"
- role                           = "arn:aws:iam::684710758112:role/LabRole"
- handler                        = "lm.lambda_handler"
- runtime                        = "python3.8"
-}
+# resource "aws_lambda_function" "glue_job_trigger_lambda" {
+#  filename                       = "${path.module}/lm.zip"
+#  function_name                  = "Jhooq-Lambda-Function"
+#  role                           = "arn:aws:iam::684710758112:role/LabRole"
+#  handler                        = "lm.lambda_handler"
+#  runtime                        = "python3.11"
+# }
 
 # CLOUDWATCH 
 
@@ -78,22 +78,23 @@ resource "aws_lambda_function" "glue_job_trigger_lambda" {
 # STEP FUNCTION...check  
 
 # Define the Step Functions state machine
-resource "aws_sfn_state_machine" "example_state_machine" {
-  name     = "ExampleStateMachine"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
-  definition = <<EOF
-{
-  "StartAt": "InvokeLambda",
-  "States": {
-    "InvokeLambda": {
-      "Type": "Task",
-      "Resource": "${aws_lambda_function.glue_job_trigger_lambda.arn}",
-      "End": true
-    }
-  }
-}
-EOF
-}
+# resource "aws_sfn_state_machine" "example_state_machine" {
+#   name     = "ExampleStateMachine"
+#   role_arn = "arn:aws:iam::684710758112:role/LabRole"
+#   definition = <<EOF
+# {
+#   "StartAt": "InvokeLambda",
+#   "States": {
+#     "InvokeLambda": {
+#       "Type": "Task",
+#       "JobName": "group2"
+#       "Resource": "${aws_lambda_function.glue_job_trigger_lambda.arn}",
+#       "End": true
+#     }
+#   }
+# }
+# EOF
+# }
 
 
 # # GLUE JOB
@@ -115,6 +116,7 @@ resource "aws_glue_job" "glue_job" {
   glue_version = "4.0"
   
 }
+
 
 
 
