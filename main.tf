@@ -114,7 +114,7 @@ resource "aws_sfn_state_machine" "example_state_machine" {
       "Resource": "arn:aws:states:::glue:startJobRun.sync",                  
       "Parameters": {
         "JobName": "group2"
-      }
+      },
       "End": true
     }
   }
