@@ -106,7 +106,7 @@ resource "aws_sfn_state_machine" "example_state_machine" {
   role_arn = "arn:aws:iam::684710758112:role/LabRole"
   definition = <<EOF
 {
-  "comment": "Triggering Glue using stepfunction"
+  "comment": "Triggering Glue using stepfunction",
   "StartAt": "Glue StartJobRun",
   "States": {
     "Glue StartJobRun": {
