@@ -77,24 +77,7 @@
 
 # STEP FUNCTION...check  
 
-# Define the Step Functions state machine
-# resource "aws_sfn_state_machine" "example_state_machine" {
-#   name     = "ExampleStateMachine"
-#   role_arn = "arn:aws:iam::684710758112:role/LabRole"
-#   definition = <<EOF
-# {
-#   "StartAt": "InvokeLambda",
-#   "States": {
-#     "InvokeLambda": {
-#       "Type": "Task",
-#       "JobName": "group2"
-#       "Resource": "${aws_lambda_function.glue_job_trigger_lambda.arn}",
-#       "End": true
-#     }
-#   }
-# }
-# EOF
-# }
+
 
 
 # # GLUE JOB
@@ -117,7 +100,27 @@ resource "aws_glue_job" "glue_job" {
   
 }
 
-
+# Define the Step Functions state machine
+resource "aws_sfn_state_machine" "example_state_machine" {
+  name     = "ExampleStateMachine"
+  role_arn = "arn:aws:iam::684710758112:role/LabRole"
+  definition = <<EOF
+{
+  "comment": "Triggering Glue using stepfunction"
+  "StartAt": "Glue StartJobRun",
+  "States": {
+    "Glue StartJobRun": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",                  
+      "Parameters": {
+        "JobName": "group2"
+      }
+      "End": true
+    }
+  }
+}
+EOF
+}
 
 
 ### AWS REDSHIFT CLUSTER 
