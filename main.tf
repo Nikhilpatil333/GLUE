@@ -101,8 +101,10 @@ resource "aws_glue_job" "glue_job" {
   name = "group2"
   role_arn = "arn:aws:iam::684710758112:role/LabRole"
   description = "This is script to convert dataset"
-  max_retries = "1"
-  timeout = 2880
+  max_retries = "0"
+  timeout = 120
+  number_of_workers = 2
+  worker_type = "Standard"
   command {
     script_location = "s3://terraform-nikhil-prac/test.py"
     python_version = "3"
@@ -112,13 +114,26 @@ resource "aws_glue_job" "glue_job" {
   }
   glue_version = "4.0"
   
-  tags = {
-    key = "Createdby"
-    value = "nikhil"
-  }
-  
 }
 
 
 
+### AWS REDSHIFT CLUSTER 
 
+# provider "aws" {
+#   region = "us-east-1"
+# }
+
+# resource "aws_redshift_cluster" "redshiftCluster1" {
+#   cluster_identifier = "tf-redshift-cluster"
+#   database_name      = "dev"
+#   master_username    = "awsuser"
+#   master_password    = "HM27march99"
+#   node_type          = "dc2.large"
+#   cluster_type       = "single-node"
+# }
+
+# resource "aws_redshift_cluster_iam_roles" "redshiftCluster1" {
+#   cluster_identifier = aws_redshift_cluster.redshiftCluster1.cluster_identifier
+#   iam_role_arns      = ["arn:aws:iam::381074404087:role/LabRole"]
+# }
