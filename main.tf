@@ -139,7 +139,7 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
                           "Type": "Task",
 		          "Resource": "arn:aws:states:::sns:publish",		
                           "Parameters": {
-                            "TopicArn": "${SNS_Topic_ARN}",
+                            "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
                             "Message": "Hello,\n\nGlue Job is completed successfully."
                           },
                           "End": true
