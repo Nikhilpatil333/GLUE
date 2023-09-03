@@ -121,7 +121,7 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
       "Parameters": {
         "JobName": "${aws_glue_job.glue_job.name}"
       },
-      "Next": "Notify"  
+      "Next": "Notify"
     },
     "Notify": {
       "Type": "Task",
@@ -131,11 +131,15 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
         "Message": "Glue job completed successfully."
       },
       "End": true
+    },
+    "FinalState": {
+      "Type": "Succeed"
     }
   }
 }
 EOF
 }
+
 
 
 ### AWS REDSHIFT CLUSTER 
