@@ -118,7 +118,7 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
   "States": {
     "TriggerGlueJob": {
       "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Resource": "arn:aws:states:::glue:startJobRun",
       "Parameters": {
         "JobName": "${aws_glue_job.glue_job.name}"
       },
