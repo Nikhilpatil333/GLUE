@@ -113,30 +113,44 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
 
   definition = <<EOF
 {
-  "StartAt": "TriggerGlueJob",
-  "States": {
-    "TriggerGlueJob": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",
-      "Parameters": {
-        "JobName": "${aws_glue_job.glue_job.name}"
-      },
-      "Next": "Notify"
-    },
-    "Notify": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::sns:publish",
-      "Parameters": {
-        "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
-        "Message": "Glue job completed successfully."
-      },
-      "End": true
-    },
-    "FinalState": {
-      "Type": "Succeed"
-    }
-  }
-}
+              "Comment": "A description of my state machine",
+              "StartAt": "Parallel",
+              "States": {
+                "Parallel": {
+                  "Type": "Parallel",
+                  "Branches": [
+                    {
+                      "StartAt": "TriggerGlueJob",
+                      "States": {
+                        "TriggerGlueJob": {
+                          "Type": "Task",
+                          "Resource": "arn:aws:states:::glue:startJobRun.sync",
+                          "Parameters": {
+                            "JobName": "${aws_glue_job.glue_job.name}"
+                          },
+                          "End": true
+                        }
+                      }
+                    },
+                    {
+                      "StartAt": "SNS Publish",
+                      "States": {
+                        "SNS Publish": {
+                          "Type": "Task",
+		          "Resource": "arn:aws:states:::sns:publish",		
+                          "Parameters": {
+                            "TopicArn": "${SNS_Topic_ARN}",
+                            "Message": "Hello,\n\nGlue Job is completed successfully."
+                          },
+                          "End": true
+                        }
+                      }
+                    }
+                  ],
+                  "End": true
+                }
+              }
+            }
 EOF
 }
 
