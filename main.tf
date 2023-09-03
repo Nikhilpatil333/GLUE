@@ -75,69 +75,67 @@
 #   source_arn    = aws_cloudwatch_event_rule.glue_job_creation_trigger.arn
 # }
 
-# STEP FUNCTION...check  
+  
 
 
 
 
 # # GLUE JOB
-resource "aws_glue_job" "glue_job" {
-  name = "group2"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
-  description = "This is script to convert dataset"
-  max_retries = "0"
-  timeout = 120
-  number_of_workers = 2
-  worker_type = "Standard"
-  command {
-    script_location = "s3://terraform-nikhil-prac/test.py"
-    python_version = "3"
-  }
-  execution_property {
-    max_concurrent_runs = 2
-  }
-  glue_version = "4.0"
+# resource "aws_glue_job" "glue_job" {
+#   name = "group2"
+#   role_arn = "arn:aws:iam::684710758112:role/LabRole"
+#   description = "This is script to convert dataset"
+#   max_retries = "0"
+#   timeout = 120
+#   number_of_workers = 2
+#   worker_type = "Standard"
+#   command {
+#     script_location = "s3://terraform-nikhil-prac/test.py"
+#     python_version = "3"
+#   }
+#   execution_property {
+#     max_concurrent_runs = 2
+#   }
+#   glue_version = "4.0"
   
-}
+# }
+
+# STEP FUNCTION...check
 
 # Define the Step Functions state machine
-resource "aws_sfn_state_machine" "example_state_machine" {
-  name     = "ExampleStateMachine"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
-  definition = <<EOF
-{
-  "StartAt": "Glue StartJobRun",
-  "States": {
-    "Glue StartJobRun": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",                  
-      "Parameters": {
-        "JobName": "group2"
-      },
-      "End": true
-    }
-  }
-}
-EOF
-}
+# resource "aws_sfn_state_machine" "example_state_machine" {
+#   name     = "ExampleStateMachine"
+#   role_arn = "arn:aws:iam::684710758112:role/LabRole"
+#   definition = <<EOF
+# {
+#   "StartAt": "Glue StartJobRun",
+#   "States": {
+#     "Glue StartJobRun": {
+#       "Type": "Task",
+#       "Resource": "arn:aws:states:::glue:startJobRun.sync",                  
+#       "Parameters": {
+#         "JobName": "group2"
+#       },
+#       "next": SNS_public
+#     }
+#   }
+# }
+# EOF
+# }
 
 
 ### AWS REDSHIFT CLUSTER 
 
-# provider "aws" {
-#   region = "us-east-1"
-# }
+resource "aws_redshift_cluster" "redshiftCluster1" {
+  cluster_identifier = "tf-redshift-cluster"
+  database_name      = "dev"
+  master_username    = "nikhil"
+  master_password    = "#Nikhil33"
+  node_type          = "dc2.large"
+  cluster_type       = "single-node"
+}
 
-# resource "aws_redshift_cluster" "redshiftCluster1" {
-#   cluster_identifier = "tf-redshift-cluster"
-#   database_name      = "dev"
-#   master_username    = "awsuser"
-#   master_password    = "HM27march99"
-#   node_type          = "dc2.large"
-#   cluster_type       = "single-node"
-# }
-
-# resource "aws_redshift_cluster_iam_roles" "redshiftCluster1" {
-#   cluster_identifier = aws_redshift_cluster.redshiftCluster1.cluster_identifier
-#   iam_role_arns      = ["arn:aws:iam::381074404087:role/LabRole"]
-# }
+resource "aws_redshift_cluster_iam_roles" "redshiftCluster1" {
+  cluster_identifier = aws_redshift_cluster.redshiftCluster1.cluster_identifier
+  iam_role_arns      = ["arn:aws:iam::381074404087:role/LabRole"]
+}
