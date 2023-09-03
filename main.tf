@@ -122,7 +122,6 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
       "Parameters": {
         "JobName": "${aws_glue_job.glue_job.name}"
       },
-      "End": false,
       "Next": "WaitForGlueJob"
     },
     "WaitForGlueJob": {
