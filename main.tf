@@ -113,44 +113,34 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
 
   definition = <<EOF
 {
-              "Comment": "A description of my state machine",
-              "StartAt": "Parallel",
-              "States": {
-                "Parallel": {
-                  "Type": "Parallel",
-                  "Branches": [
-                    {
-                      "StartAt": "TriggerGlueJob",
-                      "States": {
-                        "TriggerGlueJob": {
-                          "Type": "Task",
-                          "Resource": "arn:aws:states:::glue:startJobRun.sync",
-                          "Parameters": {
-                            "JobName": "${aws_glue_job.glue_job.name}"
-                          },
-                          "End": true
-                        }
-                      }
-                    },
-                    {
-                      "StartAt": "SNS Publish",
-                      "States": {
-                        "SNS Publish": {
-                          "Type": "Task",
-		          "Resource": "arn:aws:states:::sns:publish",		
-                          "Parameters": {
-                            "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
-                            "Message": "Hello,\n\nGlue Job is completed successfully."
-                          },
-                          "End": true
-                        }
-                      }
-                    }
-                  ],
-                  "End": true
-                }
-              }
-            }
+  "Comment": "A description of my state machine",
+  "StartAt": "TriggerGlueJob",
+  "States": {
+    "TriggerGlueJob": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "${aws_glue_job.glue_job.name}"
+      },
+      "End": false,
+      "Next": "WaitForGlueJob"
+    },
+    "WaitForGlueJob": {
+      "Type": "Wait",
+      "Seconds": 90,  
+      "Next": "SNSPublish"
+    },
+    "SNSPublish": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
+        "Message": "Hello,\n\nGlue Job is completed successfully."
+      },
+      "End": true
+    }
+  }
+}
 EOF
 }
 
