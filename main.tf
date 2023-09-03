@@ -139,3 +139,4 @@ resource "aws_redshift_cluster_iam_roles" "redshiftCluster1" {
   cluster_identifier = aws_redshift_cluster.redshiftCluster1.cluster_identifier
   iam_role_arns      = ["arn:aws:iam::381074404087:role/LabRole"]
 }
+
