@@ -107,7 +107,7 @@ resource "aws_sns_topic" "glue_job_notification" {
 }
 
 # STEP FUNCTION TO TRIGGER GLUE JOB AND NOTIFY
-resource "aws_stepfunctions_state_machine" "glue_job_trigger" {
+resource "aws_sfn_state_machine" "glue_job_trigger" {
   name     = "glue-job-trigger"
   role_arn = "arn:aws:iam::684710758112:role/LabRole"
 
