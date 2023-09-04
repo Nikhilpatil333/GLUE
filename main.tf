@@ -1,21 +1,21 @@
 #Creating bucket
 
-# resource "aws_s3_bucket" "bucket" {
-#   bucket = "terraform-nikhil-prac"
+resource "aws_s3_bucket" "bucket" {
+  bucket = "terraform-nikhil-prac"
 
-#   tags = {
-#     Name = "My bucket"
-#   }
-# }
+  tags = {
+    Name = "My bucket"
+  }
+}
 
 
 # # for uploading a pyspark file into a bucket
 
-# resource "aws_s3_object" "upload-glue-script" {
-#   bucket = aws_s3_bucket.bucket.id
-#   key    = "test.py"
-#   source = "./test.py"
-# }
+resource "aws_s3_object" "upload-glue-script" {
+  bucket = aws_s3_bucket.bucket.id
+  key    = "test.py"
+  source = "./test.py"
+}
 #=======================================================================================
 # generate an archieve or zip file
 
@@ -81,67 +81,67 @@
 
 
 # # GLUE JOB
-resource "aws_glue_job" "glue_job" {
-  name = "group2"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
-  description = "This is script to convert dataset"
-  max_retries = "0"
-  timeout = 120
-  number_of_workers = 2
-  worker_type = "Standard"
-  command {
-    script_location = "s3://terraform-nikhil-prac/test.py"
-    python_version = "3"
-  }
-  execution_property {
-    max_concurrent_runs = 2
-  }
-  glue_version = "4.0"
+# resource "aws_glue_job" "glue_job" {
+#   name = "group2"
+#   role_arn = "arn:aws:iam::684710758112:role/LabRole"
+#   description = "This is script to convert dataset"
+#   max_retries = "0"
+#   timeout = 120
+#   number_of_workers = 2
+#   worker_type = "Standard"
+#   command {
+#     script_location = "s3://terraform-nikhil-prac/test.py"
+#     python_version = "3"
+#   }
+#   execution_property {
+#     max_concurrent_runs = 2
+#   }
+#   glue_version = "4.0"
   
-}
+# }
 
-# STEP FUNCTION TO TRIGGER GLUE JOB
-# Define an SNS topic
-resource "aws_sns_topic" "glue_job_notification" {
-  name = "glue-job-notification-topic"
-}
+# # STEP FUNCTION TO TRIGGER GLUE JOB
+# # Define an SNS topic
+# resource "aws_sns_topic" "glue_job_notification" {
+#   name = "glue-job-notification-topic"
+# }
 
-# STEP FUNCTION TO TRIGGER GLUE JOB AND NOTIFY
-resource "aws_sfn_state_machine" "glue_job_trigger" {
-  name     = "glue-job-trigger"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
+# # STEP FUNCTION TO TRIGGER GLUE JOB AND NOTIFY
+# resource "aws_sfn_state_machine" "glue_job_trigger" {
+#   name     = "glue-job-trigger"
+#   role_arn = "arn:aws:iam::684710758112:role/LabRole"
 
-  definition = <<EOF
-{
-  "Comment": "A description of my state machine",
-  "StartAt": "TriggerGlueJob",
-  "States": {
-    "TriggerGlueJob": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun",
-      "Parameters": {
-        "JobName": "${aws_glue_job.glue_job.name}"
-      },
-      "Next": "WaitForGlueJob"
-    },
-    "WaitForGlueJob": {
-      "Type": "Wait",
-      "Seconds": 90,  
-      "Next": "SNSPublish"
-    },
-    "SNSPublish": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::sns:publish",
-      "Parameters": {
-        "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
-        "Message": "Hello,\n\nGlue Job is completed successfully."
-      },
-      "End": true
-    }
-  }
-}
-EOF
-}
+#   definition = <<EOF
+# {
+#   "Comment": "A description of my state machine",
+#   "StartAt": "TriggerGlueJob",
+#   "States": {
+#     "TriggerGlueJob": {
+#       "Type": "Task",
+#       "Resource": "arn:aws:states:::glue:startJobRun",
+#       "Parameters": {
+#         "JobName": "${aws_glue_job.glue_job.name}"
+#       },
+#       "Next": "WaitForGlueJob"
+#     },
+#     "WaitForGlueJob": {
+#       "Type": "Wait",
+#       "Seconds": 90,  
+#       "Next": "SNSPublish"
+#     },
+#     "SNSPublish": {
+#       "Type": "Task",
+#       "Resource": "arn:aws:states:::sns:publish",
+#       "Parameters": {
+#         "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
+#         "Message": "Hello,\n\nGlue Job is completed successfully."
+#       },
+#       "End": true
+#     }
+#   }
+# }
+# EOF
+# }
 
 
 

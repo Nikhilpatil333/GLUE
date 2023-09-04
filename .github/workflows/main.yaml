@@ -1,4 +1,4 @@
-name: "Terraform action"
+name: Terraform-action
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 jobs:
-  deploy:
+  Terraform-action:
     runs-on: ubuntu-latest
     defaults:
       run:
