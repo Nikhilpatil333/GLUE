@@ -1,7 +1,7 @@
 #------ Creating Bucket ------------#
 
 resource "aws_s3_bucket" "bucket1" {
-  bucket = "NYC-Data"
+  bucket = "NYC-Nikhil-Data"
   tags = {
     Name = "My bucket"
   }
