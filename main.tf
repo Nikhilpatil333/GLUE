@@ -1,7 +1,7 @@
 #------ Creating Bucket ------------#
 
 resource "aws_s3_bucket" "bucket1" {
-  bucket = "NYC-Nikhil-Data"
+  bucket = "terraform-beyounick-Data"
   tags = {
     Name = "My bucket"
   }
