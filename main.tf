@@ -65,7 +65,7 @@ resource "aws_s3_object" "upload-glue-script-2" {
 
 # resource "aws_redshift_cluster_iam_roles" "redshiftCluster1" {
 #   cluster_identifier = aws_redshift_cluster.redshiftCluster1.cluster_identifier
-#   iam_role_arns      = ["arn:aws:iam::684710758112:role/LabRole"]
+#   iam_role_arns      = ["arn:aws:iam::300758866129:role/LabRole"]
 # }
 
 # output "redshift_cluster_endpoint" {
@@ -79,7 +79,7 @@ resource "aws_s3_object" "upload-glue-script-2" {
 # resource "aws_lambda_function" "glue_job_trigger_lambda" {
 #  filename                       = "${path.module}/lm.zip"
 #  function_name                  = "Jhooq-Lambda-Function"
-#  role                           = "arn:aws:iam::684710758112:role/LabRole"
+#  role                           = "arn:aws:iam::300758866129:role/LabRole"
 #  handler                        = "lm.py"
 #  runtime                        = "python3.8"
 # }
@@ -88,7 +88,7 @@ resource "aws_s3_object" "upload-glue-script-2" {
 
 resource "aws_glue_job" "glue_job_1" {
   name = "Data-Merging"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
+  role_arn = "arn:aws:iam::300758866129:role/LabRole"
   description = "Combining Data from RDS and S3"
   max_retries = "0"
   timeout = 60
@@ -106,7 +106,7 @@ resource "aws_glue_job" "glue_job_1" {
 
 resource "aws_glue_job" "glue_job_2" {
   name = "Data-Transformation"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
+  role_arn = "arn:aws:iam::300758866129:role/LabRole"
   description = "Cleaning and Modifying the Table"
   max_retries = "0"
   timeout = 60
@@ -129,7 +129,7 @@ resource "aws_sns_topic" "glue_job_notification" {
 #---------- STEP FUNCTION TO TRIGGER GLUE JOB AND NOTIFY---------------#
 resource "aws_sfn_state_machine" "glue_job_trigger" {
   name     = "glue-job-trigger"
-  role_arn = "arn:aws:iam::684710758112:role/LabRole"
+  role_arn = "arn:aws:iam::300758866129:role/LabRole"
 
   definition = <<EOF
 {
