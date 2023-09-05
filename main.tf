@@ -1,7 +1,7 @@
 #------ Creating Bucket ------------#
 
 resource "aws_s3_bucket" "bucket1" {
-  bucket = "terraform-nikhil-prac"
+  bucket = "terraform-tejas758-prac"
   tags = {
     Name = "My bucket"
   }
