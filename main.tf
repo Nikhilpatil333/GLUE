@@ -63,25 +63,16 @@ resource "aws_redshift_cluster" "redshiftCluster1" {
   cluster_type       = "single-node"
 }
 
+output "redshift_cluster_url" {
+  value = aws_redshift_cluster.redshiftCluster1.endpoint
+}
+
 resource "aws_redshift_cluster_iam_roles" "redshiftCluster1" {
   cluster_identifier = aws_redshift_cluster.redshiftCluster1.cluster_identifier
   iam_role_arns      = ["arn:aws:iam::684710758112:role/LabRole"]
 }
 
-resource "aws_lambda_function" "redshift_cluster_creation_lambda" {
-  name = "redshift-cluster-creation-lambda"
-  role = "arn:aws:iam::684710758112:role/LabRole"
-  runtime = "python3.8"
-  handler = "lambda_handler"
-  code = <<EOF
-def lambda_handler(event, context):
-    redshift_url = event['RedshiftCluster']['Endpoint']['Address']
-    recipient = event['RedshiftCluster']['Tags']['Name']
 
-    send_email(redshift_url, recipient)
-
-EOF
-}
 
 
 # #-------------------- GLUE JOB 1 - RDS + S3 -------------------------#
