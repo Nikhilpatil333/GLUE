@@ -42,7 +42,7 @@ rds_df = spark.read.jdbc(url=jdbc_url, table=table_name, properties=connection_p
 
 #Reading data from s3
 
-s3_df = spark.read.csv("s3://pro2grp/sam/", header=True, inferSchema=True)
+s3_df = spark.read.csv("s3://pro2grp/sam/s3_sam.csv", header=True, inferSchema=True)
 
 # Loop through the columns and convert them to double in 'rds_df'
 
@@ -88,6 +88,6 @@ df = final_df.drop(*columns_to_drop)
 
 # writing data on s3 
 
-df.write.parquet("s3://combined-raw-data/s3_rds1")
+df.write.parquet("s3://tejas-buk/nik")
 
 job.commit()
