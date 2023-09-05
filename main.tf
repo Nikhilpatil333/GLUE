@@ -176,4 +176,3 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
 EOF
 }
 
-#hello
