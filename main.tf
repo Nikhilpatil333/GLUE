@@ -95,7 +95,7 @@ resource "aws_glue_job" "glue_job_1" {
   number_of_workers = 3
   worker_type = "Standard"
   command {
-    script_location = "s3://NYC-Data/first_job.py"
+    script_location = "s3://terraform-nikhil-prac/first_job.py"
     python_version = "3"
   }
   glue_version = "4.0"
@@ -113,7 +113,7 @@ resource "aws_glue_job" "glue_job_2" {
   number_of_workers = 3
   worker_type = "Standard"
   command {
-    script_location = "s3://NYC-Data/second_job.py"
+    script_location = "s3://terraform-nikhil-prac/second_job.py"
     python_version = "3"
   }
   glue_version = "4.0"
