@@ -23,7 +23,7 @@ job.init(args['JOB_NAME'], args)
 
 taxi_zone_lkp_df = spark.read.csv("s3://group2-final-project/nyc_taxi_raw_data/taxi_zone_lookup.csv", header=True, inferSchema=True)
 
-jdbc_url = "jdbc:mysql://database-1.chniqnwzuk84.us-east-1.rds.amazonaws.com:3306/grp2"
+jdbc_url = "jdbc:mysql://database-2.chniqnwzuk84.us-east-1.rds.amazonaws.com:3306/grp2"
 
 # Reading data from RDS
 
@@ -42,7 +42,7 @@ rds_df = spark.read.jdbc(url=jdbc_url, table=table_name, properties=connection_p
 
 #Reading data from s3
 
-s3_df = spark.read.csv("s3://project-group2/2019_Yellow_Taxi_Trip_Data.csv", header=True, inferSchema=True)
+s3_df = spark.read.csv("s3://pro2grp/sam/", header=True, inferSchema=True)
 
 # Loop through the columns and convert them to double in 'rds_df'
 
