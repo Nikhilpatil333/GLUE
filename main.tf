@@ -53,6 +53,7 @@ resource "aws_s3_object" "upload-glue-script-2" {
 
 # AWS REDSHIFT CLUSTER 
 
+
 resource "aws_redshift_cluster" "redshiftCluster1" {
   cluster_identifier = "tf-redshift-cluster"
   database_name      = "dev"
