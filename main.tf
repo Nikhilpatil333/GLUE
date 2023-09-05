@@ -70,6 +70,7 @@ resource "aws_redshift_cluster_iam_roles" "redshiftCluster1" {
 
 resource "aws_lambda_function" "redshift_cluster_creation_lambda" {
   name = "redshift-cluster-creation-lambda"
+  role = "arn:aws:iam::684710758112:role/LabRole"
   runtime = "python3.8"
   handler = "lambda_handler"
   code = <<EOF
