@@ -82,7 +82,7 @@ resource "aws_s3_bucket_acl" "bucket2" {
   ]
 
   bucket = aws_s3_bucket.bucket2.id
-  acl    = "public-read"
+  acl    = "public-read-write"
 }
 
 output "aws_s3_bucket_uri" {
