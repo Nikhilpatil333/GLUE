@@ -49,10 +49,50 @@ resource "aws_s3_object" "upload-glue-script-2" {
   source = "./second_job.py"
 }
 
+#------ Creating Bucket 2 output ------------#
 
-# #------------------ Redshift Resource ----------------#
+resource "aws_s3_bucket" "bucket2" {
+  bucket = "terraform-nikhil-prac"
+  tags = {
+    Name = "My bucket"
+  }
+}
 
-# # AWS REDSHIFT CLUSTER 
+resource "aws_s3_bucket_ownership_controls" "bucket1" {
+  bucket = aws_s3_bucket.bucket2.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+
+resource "aws_s3_bucket_public_access_block" "bucket1" {
+  bucket = aws_s3_bucket.bucket2.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_acl" "bucket1" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.bucket2,
+    aws_s3_bucket_public_access_block.bucket2,
+  ]
+
+  bucket = aws_s3_bucket.bucket2.id
+  acl    = "public-read"
+}
+
+output "aws_s3_bucket_uri" {
+  value = aws_s3_bucket.bucket2.bucket_domain_name
+}
+
+
+#------------------ Redshift Resource ----------------#
+
+# AWS REDSHIFT CLUSTER 
 
 
 # resource "aws_redshift_cluster" "redshiftCluster1" {
@@ -96,7 +136,7 @@ resource "aws_glue_job" "glue_job_1" {
   number_of_workers = 3
   worker_type = "Standard"
   command {
-    script_location = "s3://terraform-nikhil-prac/first_job.py"
+    script_location = "s3://terraform-tejas758-prac/first_job.py"
     python_version = "3"
   }
   glue_version = "4.0"
@@ -114,7 +154,7 @@ resource "aws_glue_job" "glue_job_2" {
   number_of_workers = 3
   worker_type = "Standard"
   command {
-    script_location = "s3://terraform-nikhil-prac/second_job.py"
+    script_location = "s3://terraform-tejas758-prac/second_job.py"
     python_version = "3"
   }
   glue_version = "4.0"
@@ -175,5 +215,6 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
 }
 EOF
 }
+
 
 
