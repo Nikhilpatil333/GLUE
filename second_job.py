@@ -159,7 +159,7 @@ redshift_password = 'Group123'
 df.write.format("io.github.spark_redshift_community.spark.redshift") \
   .option("url", redshift_url) \
   .option("dbtable", "trips") \
-  .option("tempdir","s3://combined-raw-data/") \
+  .option("tempdir","s3://terraform-nikhil-prac/") \
   .option("user", redshift_user) \
   .option("password", redshift_password) \
   .option("forward_spark_s3_credentials", True).mode("append").save()

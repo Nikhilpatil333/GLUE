@@ -190,7 +190,7 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
       "Resource": "arn:aws:states:::sns:publish",
       "Parameters": {
         "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
-        "Message": "Greetings Nikhil,\n\nYour Glue Job 1 is completed successfully."
+        "Message": "Greetings Group 2,\n\nYour Glue Job 1 is completed successfully."
       },
       "Next": "GlueJob2"
     },
@@ -207,7 +207,7 @@ resource "aws_sfn_state_machine" "glue_job_trigger" {
       "Resource": "arn:aws:states:::sns:publish",
       "Parameters": {
         "TopicArn": "${aws_sns_topic.glue_job_notification.arn}",
-        "Message": "Greetings Nikhil,\n\nYour Glue Job 2 is completed successfully."
+        "Message": "Greetings Group 2,\n\nYour Glue Job 2 is completed successfully\n\nThe Data is Loaded to Redshift Successfully."
       },
       "End": true
     }
