@@ -58,7 +58,7 @@ resource "aws_s3_bucket" "bucket2" {
   }
 }
 
-resource "aws_s3_bucket_ownership_controls" "bucket1" {
+resource "aws_s3_bucket_ownership_controls" "bucket2" {
   bucket = aws_s3_bucket.bucket2.id
   rule {
     object_ownership = "BucketOwnerPreferred"
@@ -66,7 +66,7 @@ resource "aws_s3_bucket_ownership_controls" "bucket1" {
 }
 
 
-resource "aws_s3_bucket_public_access_block" "bucket1" {
+resource "aws_s3_bucket_public_access_block" "bucket2" {
   bucket = aws_s3_bucket.bucket2.id
 
   block_public_acls       = false
@@ -75,7 +75,7 @@ resource "aws_s3_bucket_public_access_block" "bucket1" {
   restrict_public_buckets = false
 }
 
-resource "aws_s3_bucket_acl" "bucket1" {
+resource "aws_s3_bucket_acl" "bucket2" {
   depends_on = [
     aws_s3_bucket_ownership_controls.bucket2,
     aws_s3_bucket_public_access_block.bucket2,
