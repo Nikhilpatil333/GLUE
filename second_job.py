@@ -26,7 +26,7 @@ job.init(args['JOB_NAME'], args)
 # Read the complete dataset.
 
 
-df = spark.read.parquet(output_path, inferSchema=True, header=True)
+df = spark.read.parquet(output_path + "/", inferSchema=True, header=True)
 
 #--------------------------------------------------------------------------------------------
 
