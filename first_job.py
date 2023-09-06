@@ -90,7 +90,7 @@ df = final_df.drop(*columns_to_drop)
 # writing data on s3 
 
 
-output_path = "S3://terraform-nikhil-prac/nikhil"
+output_path = "s3://terraform-nikhil-prac/nikhil"
 df.write.parquet(output_path)
 
 job.commit()

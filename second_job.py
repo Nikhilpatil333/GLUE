@@ -25,7 +25,7 @@ job.init(args['JOB_NAME'], args)
 #1)
 # Read the complete dataset.
 
-df = spark.read.parquet("S3://terraform-nikhil-prac/nikhil/", inferSchema=True, header=True)
+df = spark.read.parquet("s3://terraform-nikhil-prac/nikhil/", inferSchema=True, header=True)
 
 #--------------------------------------------------------------------------------------------
 
