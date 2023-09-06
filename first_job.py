@@ -18,10 +18,6 @@ glueContext = GlueContext(sc)
 spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
-
-# Retrieve the S3 bucket URI from Terraform output
-
-s3_bucket_uri = "s3://" + glueContext._jvm.com.amazonaws.services.glue.util.GlueContext.getTfOutput("s3_bucket_uri")
  
 
 # reading locations table 
@@ -94,7 +90,7 @@ df = final_df.drop(*columns_to_drop)
 # writing data on s3 
 
 
-output_path = s3_bucket_uri + "/nikhil"
+output_path = "S3://terraform-tejas758-prac" + "/nikhil"
 df.write.parquet(output_path)
 
 job.commit()
