@@ -7,6 +7,8 @@ from awsglue.job import Job
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F 
 from pyspark.sql.functions import col, month, from_unixtime, date_format, round, unix_timestamp, to_timestamp, year, hour,to_date, date_format, round
+from first_job import *
+
 
 ## @params: [JOB_NAME]
 args = getResolvedOptions(sys.argv, ['JOB_NAME'])
@@ -19,11 +21,12 @@ job.init(args['JOB_NAME'], args)
 
 
 
+
 #1)
 # Read the complete dataset.
 
-s3_path = "s3://combined-raw-data/joined_raw_sam/"
-df = spark.read.parquet(s3_path, inferSchema=True, header=True)
+
+df = spark.read.parquet(output_path, inferSchema=True, header=True)
 
 #--------------------------------------------------------------------------------------------
 
