@@ -143,6 +143,7 @@ resource "aws_glue_job" "glue_job_1" {
 }
 
 
+
 # #---------------------- GLUE JOB 2 - Transforming ---------------------------------#
 
 # resource "aws_glue_job" "glue_job_2" {
