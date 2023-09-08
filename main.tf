@@ -127,20 +127,20 @@ resource "aws_s3_bucket_acl" "bucket1" {
 
 # #-------------------- GLUE JOB 1 - RDS + S3 -------------------------#
 
-# resource "aws_glue_job" "glue_job_1" {
-#   name = "Data-Merging"
-#   role_arn = "arn:aws:iam::300758866129:role/LabRole"
-#   description = "Combining Data from RDS and S3"
-#   max_retries = "0"
-#   timeout = 60
-#   number_of_workers = 3
-#   worker_type = "Standard"
-#   command {
-#     script_location = "s3://gluejob-script-group2-08-09-2023/first_job.py"
-#     python_version = "3"
-#   }
-#   glue_version = "4.0"
-# }
+resource "aws_glue_job" "glue_job_1" {
+  name = var.glue_name_1
+  role_arn = var.arn
+  description = "Combining Data from RDS and S3"
+  max_retries = var.glue_retries
+  timeout = var.glue_timeout
+  number_of_workers = var.number_of_workers
+  worker_type = var.glue_standard
+  command {
+    script_location = "s3://${var.bucket1}/first_job.py"
+    python_version = "3"
+  }
+  glue_version = "4.0"
+}
 
 
 # #---------------------- GLUE JOB 2 - Transforming ---------------------------------#
