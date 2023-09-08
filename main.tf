@@ -35,13 +35,13 @@ resource "aws_s3_bucket_acl" "bucket1" {
 }
 
 
-# #--------------- Uploading Pyscript on S3 ------------------#
+#--------------- Uploading Pyscript on S3 ------------------#
 
-# resource "aws_s3_object" "upload-glue-script-1" {
-#   bucket = aws_s3_bucket.bucket1.id
-#   key    = "first_job.py"
-#   source = "./first_job.py"
-# }
+resource "aws_s3_object" "upload-glue-script-1" {
+  bucket = aws_s3_bucket.bucket1.id
+  key    = "first_job.py"
+  source = "./first_job.py"
+}
 
 # resource "aws_s3_object" "upload-glue-script-2" {
 #   bucket = aws_s3_bucket.bucket1.id
